@@ -37,7 +37,7 @@ class CategoryController extends Controller
 
         $image2 = $request->file('category_icon');
         $name_gen2 = hexdec(uniqid()) .'.'. $image2->getClientOriginalName();
-        Image::make($image2)->resize(23,25)->save('upload/category_icon/'.$name_gen2);
+        Image::make($image2)->resize(17,20)->save('upload/category_icon/'.$name_gen2);
         $filename2 = 'upload/category_icon/'.$name_gen2;
         
         //insert into database
@@ -91,7 +91,7 @@ class CategoryController extends Controller
             $image2 = $request->file('category_icon') ;
             $img2 = hexdec(uniqid()) .'.'. $image2->getClientOriginalName();
             $location2 ='upload/category_icon/' .$img2 ;
-            Image::make($image2)->resize(23,25)->save($location2) ;
+            Image::make($image2)->resize(17,20)->save($location2) ;
 
             if (file_exists($oldIcon)) {
                 unlink($oldIcon);

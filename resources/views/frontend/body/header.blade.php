@@ -1,3 +1,40 @@
+<style>
+    #categoryDropdown {
+        max-height: 510px; /* Set the maximum height of the dropdown */
+        overflow-y: auto; /* Enable vertical scrolling */
+        overflow-x: hidden; /* Hide horizontal scrollbar */
+        
+    }
+
+    .category-item {
+        position: relative !important; 
+        display: block !important;
+    }
+
+    /* .megamenu {
+        position: absolute !important;
+        top: 100% !important;
+        left: 0% !important;
+        z-index: 1000 !important; 
+        display: none !important;
+      
+    } */
+
+    /* .category-item:hover .megamenu {
+        display: block !important;
+    } */
+
+    .category-item.hovered .megamenu {
+        display: block !important;
+    }
+
+
+
+
+
+</style>
+
+
 <header class="header">
     <div class="header-top">
         <div class="container">
@@ -24,7 +61,7 @@
                             ENG
                         </a>
                         <a href="#FRA">
-                            <img src="{{asset('frontend/')}}assets/images/flags/fra.png" alt="FRA Flag" width="14" height="8"
+                            <img src="{{asset('frontend/assets/images/flags/fra.png')}}" alt="FRA Flag" width="14" height="8"
                                 class="dropdown-image" />
                             FRA
                         </a>
@@ -61,7 +98,7 @@
                 </a>
                 @php
                     $categories = App\Models\Category::orderBy('category_name','ASC')->get();
-                    $categoriesPerPage = 10;
+                   
                 @endphp
 
                 <form method="get" action="#"
@@ -177,7 +214,7 @@
 
     @php
         $categories = App\Models\Category::orderBy('category_name','ASC')->get();
-        $categoriesPerPage = 10;
+       
     @endphp
 
     <div class="header-bottom sticky-content fix-top sticky-header has-dropdown">
@@ -194,11 +231,10 @@
 
                         <div class="dropdown-box" id="categoryDropdown">
                             <ul class="menu vertical-menu category-menu">
-                                @foreach ($categories->take(11) as $Catgory)
-                                    <li>
-                                        <a href="shop-fullwidth-banner.html" class="fw-100" style="font-size: 15px;">
-                                            <img src="{{ asset($Catgory->category_icon) }}" alt="..." class="mb-1" 
-                                            >&nbsp;
+                                @foreach ($categories as $Catgory)
+                                    <li class="category-item">
+                                        <a href="#" class="fw-100">
+                                            <img src="{{ asset($Catgory->category_icon) }}" alt="..." class="mb-1" >&nbsp;
                                             {{ $Catgory->category_name }}
                                         </a>
                                         <ul class="megamenu">
@@ -458,3 +494,59 @@
         </div>
     </div>
 </header>
+
+
+
+<script>
+    document.getElementById('categoryDropdown').addEventListener('mouseover', function (event) {
+        var target = event.target;
+
+        // Check if the mouse is over a category-item or its descendants
+        var categoryItem = target.closest('.category-item');
+        if (categoryItem) {
+            // Remove 'hovered' class from all category-items
+            document.querySelectorAll('.category-item').forEach(function (item) {
+                item.classList.remove('hovered');
+            });
+
+            // Add 'hovered' class to the current category-item
+            categoryItem.classList.add('hovered');
+
+            // Display the corresponding megamenu
+            var megamenu = categoryItem.querySelector('.megamenu');
+            if (megamenu) {
+                // Move the megamenu to the end of the body
+                document.body.appendChild(megamenu);
+
+                // Calculate position relative to the viewport
+                var rect = categoryItem.getBoundingClientRect();
+                megamenu.style.position = 'fixed'; // Change to fixed positioning
+                megamenu.style.top = rect.bottom + 'px';
+                megamenu.style.left = rect.left + 'px';
+
+                megamenu.style.display = 'block';
+            }
+        }
+    });
+
+    document.getElementById('categoryDropdown').addEventListener('mouseout', function (event) {
+        var target = event.target;
+
+        // Check if the mouse is not over a category-item or its descendants
+        if (!target.closest('.category-item')) {
+            // Remove 'hovered' class from all category-items
+            document.querySelectorAll('.category-item').forEach(function (item) {
+                item.classList.remove('hovered');
+            });
+
+            // Hide all megamenus
+            document.querySelectorAll('.megamenu').forEach(function (megamenu) {
+                // Move the megamenu back to its original position
+                document.getElementById('categoryDropdown').appendChild(megamenu);
+                megamenu.style.display = 'none';
+            });
+        }
+    });
+</script>
+
+

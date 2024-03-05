@@ -675,40 +675,7 @@
     <!-- Main JS -->
     <script src="{{asset('frontend/assets/js/main.min.js')}}"></script>
 
-    <script>
-        // Track the number of categories already loaded
-        let loadedCategories = 11; // Change this value according to your initial display
-    
-        document.getElementById('loadMoreCategories').addEventListener('click', function() {
-            // Make an AJAX request to load more categories
-            // You should have a server route/controller to handle this request
-            fetch(`/load-more-categories/${loadedCategories}`)
-                .then(response => response.json())
-                .then(data => {
-                    const categoryDropdown = document.getElementById('categoryDropdown');
-                    const ul = categoryDropdown.querySelector('ul');
-                    
-                    // Append the new categories to the list
-                    data.categories.forEach(category => {
-                        const li = document.createElement('li');
-                        li.innerHTML = `
-                            <!-- Render each new category -->
-                        `;
-                        ul.appendChild(li);
-                    });
-    
-                    // Update the number of loaded categories
-                    loadedCategories += data.categories.length;
-                    
-                    // Hide the "Load More" button if there are no more categories to load
-                    if (data.noMoreCategories) {
-                        document.getElementById('loadMoreCategories').style.display = 'none';
-                    }
-                })
-                .catch(error => console.error(error));
-        });
-    </script>
-
+   
     
     
 </body>

@@ -216,7 +216,7 @@ Route::middleware(['auth', 'role:vendor'])->group(function (){
     Route::post('/vendor/update/password', [VendorController::class, 'VendorUpdatePassword'])->name('vendor.update_password');
 
      //Vendor Product Route
-     Route::controller(VendorProductController::class)->group(function(){
+    Route::controller(VendorProductController::class)->group(function(){
         Route::get('/vendor/all/product', 'VendorAllProduct')->name('vendor.all.product');
         Route::get('/vendor/add/product', 'VendorAddProduct')->name('vendor.add.product');
         Route::post('/vendor/store/product', 'VendorStoreProduct')->name('vendor.store.product');

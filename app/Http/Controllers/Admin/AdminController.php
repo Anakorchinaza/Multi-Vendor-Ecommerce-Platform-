@@ -12,6 +12,7 @@ use Flasher\Prime\FlasherInterface;
 use Illuminate\Support\Facades\Hash;
 
 
+
 class AdminController extends Controller
 {
     public function AdminDashboard(){
